@@ -32,13 +32,16 @@ public class Player : MonoBehaviour
                 return 1f;
         }
     }
+    public bool isAlive()
+    {
+        return health >= 0;
+    }
     public bool PlayCard(Card card, Enemy enemy)
     {
         if (card == null || enemy == null || !enemy.IsAlive()) return false;
 
         switch (card.cardType)
         {
-            
             case CardType.Attack:
                 print(card.damage);
                 print(GetDamageMultiplier());
@@ -68,6 +71,7 @@ public class Player : MonoBehaviour
     // should sadness make you  take less damage or just give you more shield when you gain shield?
     public void TakeDamage(int damage)
     {
+        Debug.Log("hp:" + health);
         if(damage<=shield) shield-=damage;
         else
         {
@@ -75,6 +79,8 @@ public class Player : MonoBehaviour
             damage -= shield;
             health -= damage;
         }
+        Debug.Log("Player has taken " + damage + "Damage");
+        if(health<=0) Debug.Log("Player has died.");
     }
     public void HealPlayer(int heal)
     {
@@ -86,11 +92,13 @@ public class Player : MonoBehaviour
         shield += _shield;
     }
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         health = maxHealth;
+        Debug.Log(isAlive());
         Card temp = new Card();
         DummyEnemy e = dumbass;
+        shield = 0;
         PlayCard(temp,e);
     }
 
