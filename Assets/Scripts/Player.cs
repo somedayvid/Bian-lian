@@ -177,6 +177,8 @@ public class Player : MonoBehaviour
     {
         visualHand.Add(Instantiate(cardPrefab, transform));
         hand.Add(cardObj);
+    }
+
     // Start is called before the first frame update
     void Awake()
     {
