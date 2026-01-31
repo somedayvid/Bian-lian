@@ -7,7 +7,6 @@ using UnityEngine;
 
 
 //
-
 public class Deck : MonoBehaviour
 {
     public event EventHandler OnDeckChanged;
