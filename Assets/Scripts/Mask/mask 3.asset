@@ -15,4 +15,4 @@ MonoBehaviour:
   maskId: mask_03
   displayName: Bao Zheng
   shortDesc: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 9c083092186d3834fbce59d67ed2ce37, type: 3}

@@ -15,4 +15,4 @@ MonoBehaviour:
   maskId: mask_05
   displayName: Zhong Li
   shortDesc: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: ec845d7dcc5472642913465a8d9a2cf1, type: 3}
