@@ -15,11 +15,10 @@ public enum CardEffect
 }
 //[CreateAssetMenu(fileName = "Card", menuName = "ScriptableObjects/Card", order = 1)]
 
-public class Card : MonoBehaviour
+public class Card
 {
     //change this accordingly
     
-
     public int ID;
     public Mood moodType;
     public string cardName;
@@ -53,10 +52,7 @@ public class Card : MonoBehaviour
     public virtual void UseCard()
     {
         resolveEffect();
-        Debug.Log($"Using card: {name} with ID: {ID}");
+        Debug.Log($"Using card: {cardName} with ID: {ID}");
         // Implement card effect logic here
-
-
-        
     }
 }
