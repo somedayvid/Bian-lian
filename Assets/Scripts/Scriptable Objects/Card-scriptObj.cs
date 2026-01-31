@@ -9,17 +9,23 @@ using UnityEngine;
 public class Card : ScriptableObject
 {
     //change this accordingly
-    enum CardType
+    public enum Mood
     {
-        Attack,
-        Defense,
-        Magic,
-        Support
+        Angry,
+        Sad,
+        Happy,
+        SunWukong,
+        JadeEmperor,
     }
 
     public int ID;
+    public Mood cardMood;
+    public string cardName;
 
     // define your card properties here
+    private int health;
+    private int shield;
+    private int maxHealth;
 
     //example I will try something - Ricky
     // can use abstract or virtual. I will use virtual for now
