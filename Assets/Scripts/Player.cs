@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 public enum Mood
 {
+    Neutral,
     Angry,
     Sad,
     Happy,
@@ -25,6 +26,8 @@ public class Player : MonoBehaviour
         {
             case Mood.Angry:
                 return 1.2f; 
+            case Mood.Neutral:
+                return 1f;
             default:
                 return 1f;
         }
@@ -40,6 +43,8 @@ public class Player : MonoBehaviour
         switch (card.cardType)
         {
             case CardType.Attack:
+                print(card.damage);
+                print(GetDamageMultiplier());
                 int dmg = Mathf.RoundToInt(card.damage * GetDamageMultiplier());
                 enemy.TakeDamage(dmg);
                 break;
