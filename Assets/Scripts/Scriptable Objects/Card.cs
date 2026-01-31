@@ -2,27 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Card", menuName = "ScriptableObjects/Card", order = 1)]
+public enum CardType
+{
+    Attack,
+    Defense,
+    Power
+}
 
-   
+[CreateAssetMenu(fileName = "Card", menuName = "ScriptableObjects/Card", order = 1)]
 
 public class Card : ScriptableObject
 {
     //change this accordingly
-    public enum Mood
-    {
-        Angry,
-        Sad,
-        Happy,
-        SunWukong,
-        JadeEmperor,
-    }
-    public enum CardType
-    {
-        Attack,
-        Defense,
-        Power
-    }
+    
+    
 
     public int ID;
     public Mood moodType;

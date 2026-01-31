@@ -35,14 +35,14 @@ public class Player : MonoBehaviour
         switch (card.cardType)
         {
             
-            case Card.CardType.Attack:
+            case CardType.Attack:
                 int dmg = Mathf.RoundToInt(card.damage * GetDamageMultiplier());
                 enemy.TakeDamage(dmg);
                 break;
-            case Card.CardType.Defense:
+            case CardType.Defense:
                 shield += 5;
                 break;
-            case Card.CardType.Power:
+            case CardType.Power:
                 break;
         }
 
