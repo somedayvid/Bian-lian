@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7687997942104354763}
   - component: {fileID: 9062498727659034326}
   - component: {fileID: 4562461069581832253}
+  - component: {fileID: 8419456614020520099}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -118,3 +119,20 @@ MonoBehaviour:
   health: 0
   shield: 0
   mood: 0
+--- !u!114 &8419456614020520099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6420589142503069125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24e7995e2d0e0464899a0ac9c246aef9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  battleManager: {fileID: 0}
+  handLimit: 10
+  selectedIndex: 0
+  useDefaultTarget: 1
+  explicitTargetEnemy: {fileID: 0}

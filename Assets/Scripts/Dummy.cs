@@ -51,10 +51,4 @@ public class DummyEnemy : MonoBehaviour, Enemy
         Debug.Log($"[DummyEnemy] Attacks player for {dmg}");
         player.TakeDamage(dmg);
     }
-
-    private void Update()
-    {
-        // Intentionally empty. Do NOT call ResolveAction() here.
-        // Turn-based control must come from BattleManager.
-    }
 }

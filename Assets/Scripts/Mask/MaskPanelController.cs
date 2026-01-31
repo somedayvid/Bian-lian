@@ -1,66 +1,127 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MaskPanelController : MonoBehaviour
 {
-    [Header("Data")]
-    public MaskData[] allMasks = new MaskData[8];
+    [Header("Source")]
+    [SerializeField] private MaskManager maskManager;
 
-    private MaskData[] queue = new MaskData[3];
-    private MaskData[] inventory = new MaskData[5];
-
-    [Header("UI - Queue Slots")]
+    [Header("UI - Queue Slots (panel)")]
     public Image[] queueSlotImages = new Image[3];
 
-    [Header("UI - Inventory Slots")]
+    [Header("UI - Inventory Slots (panel)")]
     public Image[] inventorySlotImages = new Image[5];
 
-    void Start()
+    [Header("Inventory Locked Icon ")]
+    public Sprite lockedIcon;
+
+    // Panel-only inventory view (5 slots)
+    private MaskData[] inventory = new MaskData[5];
+
+    private void OnEnable()
     {
-        InitMasks();
+        if (maskManager != null)
+            maskManager.OnMaskStateChanged += RefreshUI;
+
+        RebuildInventoryFromManager();
         RefreshUI();
     }
 
-    void InitMasks()
+    private void OnDisable()
     {
-        for (int i = 0; i < 3; i++) queue[i] = allMasks[i];
-        for (int i = 0; i < 5; i++) inventory[i] = allMasks[i + 3];
+        if (maskManager != null)
+            maskManager.OnMaskStateChanged -= RefreshUI;
+    }
+
+    private void RebuildInventoryFromManager()
+    {
+        // Inventory shows unlocked masks that are NOT currently in queue.
+        for (int i = 0; i < 5; i++) inventory[i] = null;
+
+        if (maskManager == null) return;
+
+        List<MaskData> unlocked = maskManager.GetUnlockedMasksInOrder();
+
+        // Exclude queue masks
+        HashSet<MaskData> inQueue = new HashSet<MaskData>();
+        for (int i = 0; i < 3; i++)
+        {
+            var q = maskManager.GetQueueMask(i);
+            if (q != null) inQueue.Add(q);
+        }
+
+        int write = 0;
+        foreach (var m in unlocked)
+        {
+            if (write >= 5) break;
+            if (m == null) continue;
+            if (inQueue.Contains(m)) continue;
+            inventory[write++] = m;
+        }
     }
 
     public void OnClickInventory(int index)
     {
-        Debug.Log("Clicked inventory slot: " + index);
+        if (maskManager == null) return;
         if (index < 0 || index >= inventory.Length) return;
 
-        // mask clicked
         MaskData clicked = inventory[index];
+        if (clicked == null) return; // locked/empty
 
-        // kick last
-        MaskData kicked = queue[2];
+        // Push into queue; get the kicked mask back
+        MaskData kicked = maskManager.PushIntoQueue(clicked);
 
-        // move left
-        queue[2] = queue[1];
-        queue[1] = queue[0];
-        queue[0] = clicked;
-
-        // one got kicked to inventory
+        // Put kicked one back into the same inventory slot (can be null)
         inventory[index] = kicked;
 
         RefreshUI();
     }
 
-    void RefreshUI()
+    private void RefreshUI()
     {
+        // Queue UI
         for (int i = 0; i < 3; i++)
         {
-            queueSlotImages[i].sprite = queue[i].icon;
-            queueSlotImages[i].enabled = true;
+            if (queueSlotImages[i] == null) continue;
+
+            MaskData m = (maskManager != null) ? maskManager.GetQueueMask(i) : null;
+            if (m != null && m.icon != null)
+            {
+                queueSlotImages[i].sprite = m.icon;
+                queueSlotImages[i].enabled = true;
+            }
+            else
+            {
+                queueSlotImages[i].sprite = null;
+                queueSlotImages[i].enabled = false;
+            }
         }
 
+        // Inventory UI (panel)
         for (int i = 0; i < 5; i++)
         {
-            inventorySlotImages[i].sprite = inventory[i].icon;
-            inventorySlotImages[i].enabled = true;
+            if (inventorySlotImages[i] == null) continue;
+
+            MaskData m = inventory[i];
+            if (m != null && m.icon != null)
+            {
+                inventorySlotImages[i].sprite = m.icon;
+                inventorySlotImages[i].enabled = true;
+            }
+            else
+            {
+                if (lockedIcon != null)
+                {
+                    inventorySlotImages[i].sprite = lockedIcon;
+                    inventorySlotImages[i].enabled = true;
+                }
+                else
+                {
+                    inventorySlotImages[i].sprite = null;
+                    inventorySlotImages[i].enabled = false;
+                }
+            }
         }
     }
 }
