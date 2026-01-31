@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 public enum Mood
 {
     Neutral,
@@ -19,7 +21,45 @@ public class Player : MonoBehaviour
     private int maxHealth = 100;
     private Mood mood;
     public List<Card> hand = new List<Card>();
+    public List<GameObject> visualHand = new List<GameObject>();
+    public List<Card> deck = new List<Card>();
     public DummyEnemy dumbass;
+
+    public Hand handFunc;
+
+    public int chi;
+    public int maxChi;
+
+    public int currentHandIndex;
+    public int previousHandIndex;
+
+    public GameObject rightHandBound;
+    public GameObject leftHandBound;
+
+    public GameObject cardPrefab;
+
+    void Start()
+    {
+        health = maxHealth;
+        CreateCard(new Card());
+        CreateCard(new Card());
+        CreateCard(new Card());
+        CreateCard(new Card());
+        //DealHand();
+        //Card temp = new Card();
+        //DummyEnemy e = dumbass;
+        //PlayCard(temp, e);
+
+        ReorderHand();
+        currentHandIndex = hand.Count/2;
+        previousHandIndex = currentHandIndex;
+    }
+
+    private void Update()
+    {
+        PlayerInput();
+    }
+
     private float GetDamageMultiplier()
     {
         switch (mood)
@@ -32,6 +72,43 @@ public class Player : MonoBehaviour
                 return 1f;
         }
     }
+
+    public void PlayerInput()
+    {
+        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            if (hand.Count > 0)
+            {
+                if (Input.GetKeyDown(KeyCode.RightArrow))
+                {
+                    currentHandIndex++;
+                    if (currentHandIndex > hand.Count - 1)
+                    {
+                        currentHandIndex = 0;
+                    }
+                }
+
+
+                if (Input.GetKeyDown(KeyCode.LeftArrow))
+                {
+                    currentHandIndex--;
+                    if (currentHandIndex < 0)
+                    {
+                        currentHandIndex = hand.Count - 1;
+                    }
+                }
+
+                visualHand[currentHandIndex].transform.position = new Vector2(visualHand[currentHandIndex].transform.position.x, visualHand[currentHandIndex].transform.position.y + 1);
+                visualHand[previousHandIndex].transform.position = new Vector2(visualHand[previousHandIndex].transform.position.x, visualHand[previousHandIndex].transform.position.y - 1);
+                previousHandIndex = currentHandIndex;
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.Return) && hand.Count > 0)
+        {
+            PlayCard(hand[currentHandIndex], dumbass);
+        }
+    }
+
     public bool PlayCard(Card card, Enemy enemy)
     {
         if (card == null || enemy == null || !enemy.IsAlive()) return false;
@@ -52,7 +129,11 @@ public class Player : MonoBehaviour
                 break;
         }
 
-        hand.Remove(card);
+        hand.RemoveAt(currentHandIndex);
+        GameObject toDelete = visualHand[currentHandIndex];
+        visualHand.RemoveAt(currentHandIndex);
+        Destroy(toDelete);
+        ReorderHand();
         return true;
     }
     private float GetDamageResist()
@@ -85,18 +166,30 @@ public class Player : MonoBehaviour
     {
         shield += _shield;
     }
-    // Start is called before the first frame update
-    void Start()
+
+    public void CreateCard(Card cardObj)
     {
-        health = maxHealth;
-        Card temp = new Card();
-        DummyEnemy e = dumbass;
-        PlayCard(temp,e);
+        visualHand.Add(Instantiate(cardPrefab, transform));
+        hand.Add(cardObj);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ReorderHand()
     {
-        
+        if (hand.Count > 0)
+        {
+            float handWidth = Mathf.Abs(rightHandBound.transform.position.x) + Mathf.Abs(leftHandBound.transform.position.x);
+            Vector2 handCenter = new Vector2(0, leftHandBound.transform.position.y);
+
+            float negSwitch = 1.0f;
+
+            for (int i = 0; i < hand.Count; i++)
+            {
+                visualHand[i].transform.position = new Vector3(leftHandBound.transform.position.x + handWidth/hand.Count * i, leftHandBound.transform.position.y);
+                negSwitch*=-1;
+            }
+            currentHandIndex = hand.Count/2;
+            previousHandIndex = currentHandIndex;
+            visualHand[currentHandIndex].transform.position = new Vector2(visualHand[currentHandIndex].transform.position.x, visualHand[currentHandIndex].transform.position.y + 1);
+        }
     }
 }
