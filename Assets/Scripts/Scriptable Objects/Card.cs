@@ -17,15 +17,20 @@ public class Card : ScriptableObject
         SunWukong,
         JadeEmperor,
     }
+    public enum CardType
+    {
+        Attack,
+        Defense,
+        Power
+    }
 
     public int ID;
     public Mood moodType;
     public string cardName;
+    public CardType cardType;
 
     // define your card properties here
-    private int health;
-    private int shield;
-    private int maxHealth;
+    public int damage;
 
     //example I will try something - Ricky
     // can use abstract or virtual. I will use virtual for now
