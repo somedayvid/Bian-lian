@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,13 +8,15 @@ public class UnitBarsUI : MonoBehaviour
     [SerializeField] private Image healthFill;
     [SerializeField] private Image shieldFill; // optional for Dummy
 
-    private Player player;
-    private DummyEnemy dummy;
+    public Player player;
+    public DummyEnemy dummy;
 
-    private void Awake()
+    public TextMeshProUGUI hpText;
+
+
+    private void Start()
     {
-        player = GetComponentInParent<Player>();
-        dummy = GetComponentInParent<DummyEnemy>();
+        hpText.text = player.Health.ToString() + '/' + player.MaxHealth.ToString();
     }
 
     private void LateUpdate()
@@ -43,6 +46,10 @@ public class UnitBarsUI : MonoBehaviour
         if (max <= 0)
             img.fillAmount = 0f;
         else
+        {
             img.fillAmount = Mathf.Clamp01((float)current / max);
+            hpText.text = player.Health.ToString() + '/' + player.MaxHealth.ToString();
+        }
+
     }
 }
