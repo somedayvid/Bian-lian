@@ -87,18 +87,15 @@ public class Player : MonoBehaviour
         }
         else if (card.cardType == CardType.Defense)
         {
-            // Use your Card.cs field (card.shield) instead of hardcoding +5
             AddShield(card.shield);
         }
         else
         {
-            // Power: Step0 does nothing yet
+
         }
 
-        // Remove from hand (Step0 behavior)
         hand.Remove(card);
 
-        // Notify systems (BattleManager rotates masks here)
         OnCardPlayed?.Invoke();
 
         return true;
