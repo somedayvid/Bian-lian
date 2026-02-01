@@ -1,10 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// Owns player's hand (data + selection) and exposes "play selected card".
-///This is NOT the combat rules system. It only requests BattleManager to play.
-/// </summary>
 public class PlayerHandController : MonoBehaviour
 {
     [Header("Refs")]
@@ -12,26 +8,46 @@ public class PlayerHandController : MonoBehaviour
 
     [Header("Hand (Inspector-visible)")]
     [SerializeField] private int handLimit = 10;
-
-    // This list should be visible in Inspector.
-    // If it is NOT visible, your Card type is not serializable.
     [SerializeField] private List<Card> hand = new List<Card>();
 
     [Header("Selection")]
     [SerializeField] private int selectedIndex = 0;
 
     [Header("Play Settings")]
-    [Tooltip("If true, PlaySelected will ask BattleManager to choose a default target.")]
     [SerializeField] private bool useDefaultTarget = true;
-
-    [Tooltip("Explicit target (if you don't want default targeting yet).")]
-    [SerializeField] private MonoBehaviour explicitTargetEnemy; 
+    [SerializeField] private MonoBehaviour explicitTargetEnemy;
 
     // --------- Public API ---------
-
     public IReadOnlyList<Card> Hand => hand;
     public int HandLimit => handLimit;
     public int SelectedIndex => selectedIndex;
+
+    public int HandCount => hand != null ? hand.Count : 0;
+
+    public bool AddCardFromPrefab(GameObject cardPrefab)
+    {
+        if (cardPrefab == null)
+        {
+            Debug.LogWarning("[Hand] AddCardFromPrefab got null prefab.");
+            return false;
+        }
+
+        var info = cardPrefab.GetComponent<CardPrefabInfo>();
+        if (info == null)
+        {
+            Debug.LogError($"[Hand] Prefab '{cardPrefab.name}' missing CardPrefabInfo component.");
+            return false;
+        }
+
+        Card created = info.CreateCardInstance();
+        return AddCardToHand(created); 
+    }
+
+    public bool RemoveFirstCard()
+    {
+        if (hand.Count == 0) return false;
+        return RemoveCardAt(0); 
+    }
 
     public Card GetSelectedCard()
     {
@@ -40,9 +56,6 @@ public class PlayerHandController : MonoBehaviour
         return hand[selectedIndex];
     }
 
-    /// <summary>
-    /// Add a card into hand (enforces hand limit).
-    /// </summary>
     public bool AddCardToHand(Card card)
     {
         if (card == null) return false;
@@ -55,14 +68,10 @@ public class PlayerHandController : MonoBehaviour
 
         hand.Add(card);
 
-        // Keep selection valid
         selectedIndex = Mathf.Clamp(selectedIndex, 0, hand.Count - 1);
         return true;
     }
 
-    /// <summary>
-    /// Remove a card by index (safe).
-    /// </summary>
     public bool RemoveCardAt(int index)
     {
         if (index < 0 || index >= hand.Count) return false;
@@ -81,10 +90,6 @@ public class PlayerHandController : MonoBehaviour
         return true;
     }
 
-    /// <summary>
-    /// Select next card (wrap).
-    /// Hook to Left/Right arrows or UI buttons.
-    /// </summary>
     public void SelectNext()
     {
         if (hand.Count == 0) return;
@@ -98,10 +103,6 @@ public class PlayerHandController : MonoBehaviour
         if (selectedIndex < 0) selectedIndex = hand.Count - 1;
     }
 
-    /// <summary>
-    /// Main play entry (bind this to a UI button).
-    /// It will call BattleManager.TryPlayCard(...) and only remove from hand if success.
-    /// </summary>
     public void PlaySelected()
     {
         if (battleManager == null)
