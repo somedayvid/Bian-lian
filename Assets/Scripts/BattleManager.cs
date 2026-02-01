@@ -59,10 +59,7 @@ public class BattleManager : MonoBehaviour
     {
         return instance;
     }
-
-    private void Awake()
-    {
-        instance = this;
+    
         // Cache Enemy interface references
     // NEW: extra turn is requested by CombatManagerFacade (e.g., Er Lang Shen card)
     private bool extraTurnPending = false;
@@ -71,6 +68,8 @@ public class BattleManager : MonoBehaviour
 
     private void Awake()
     {
+
+        instance = this;
         // Cache Enemy interface references (Enemy.cs unchanged)
         enemies.Clear();
         foreach (var mb in enemyBehaviours)

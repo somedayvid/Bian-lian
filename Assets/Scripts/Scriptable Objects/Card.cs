@@ -34,7 +34,7 @@ public enum CardEffect
     RockThrow,
     Pills,
     BuddahStrike,
-    SubmachineGun,
+    //SubmachineGun,
     
 }
 //[CreateAssetMenu(fileName = "Card", menuName = "ScriptableObjects/Card", order = 1)]
