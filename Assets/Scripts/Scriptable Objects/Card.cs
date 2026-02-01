@@ -93,9 +93,9 @@ public class Card
 
                 Card temp = new Card();
                 temp.cardEffect = CardEffect.OrientalDagger;
-                DeckManager.GetInstance().AddCard(temp);
-                DeckManager.GetInstance().AddCard(temp);
-                DeckManager.GetInstance().AddCard(temp);
+                PlayerHandController.GetInstance().AddCardToHand(temp);
+                PlayerHandController.GetInstance().AddCardToHand(temp);
+                PlayerHandController.GetInstance().AddCardToHand(temp);
                 break;
             case (CardEffect.OrientalDagger):
                 chi = 0;
@@ -120,7 +120,7 @@ public class Card
             case (CardEffect.HeavenlyInsight):
                 chi = 1;
                 cardType = CardType.Power;
-                if (CombatManagerFacade.GetInstance().Mana < 1) break;
+                //if (CombatManagerFacade.GetInstance().Mana < 1) break;
                 DeckManager.GetInstance().Draw();
                 DeckManager.GetInstance().Draw();
                 DeckManager.GetInstance().Draw();

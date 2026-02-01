@@ -47,6 +47,18 @@ public class PlayerHandController : MonoBehaviour
 
     public int HandCount => hand != null ? hand.Count : 0;
 
+    private static PlayerHandController instance;
+
+    public static PlayerHandController GetInstance()
+    {
+        return instance;
+    }
+
+    private void Awake()
+    {
+        instance= this;
+    }
+
     private void Start()
     {
         handPosList = handPosObj.GetComponentsInChildren<Transform>();

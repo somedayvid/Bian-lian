@@ -74,7 +74,7 @@ public class CombatManagerFacade : MonoBehaviour
 
     private int mana;
 
-    // Enemy statuses
+    // Enemy statuses   
     private readonly Dictionary<Enemy, EnemyStatus> status = new Dictionary<Enemy, EnemyStatus>();
 
     // Summons
