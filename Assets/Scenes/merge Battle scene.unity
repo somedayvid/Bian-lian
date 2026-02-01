@@ -3924,7 +3924,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c9a07e93be0431241981840973d86cc1, type: 2}
   - {fileID: 11400000, guid: 100ec13aeacd790439edc9f4a687ea14, type: 2}
   - {fileID: 11400000, guid: 55b23ff4a1dc3a94d85f7220c1acff76, type: 2}
-  unlocked: 0101010101000000
+  unlocked: 0101010000000000
   queue:
   - {fileID: 11400000, guid: 02bd8acd04e717c4585f5552b308ba7b, type: 2}
   - {fileID: 11400000, guid: d7648b09ea368424e8534ce6c1114c45, type: 2}
@@ -7328,7 +7328,7 @@ MonoBehaviour:
   player: {fileID: 1425976159}
   enemyBehaviours:
   - {fileID: 1368908023}
-  maskManager: {fileID: 0}
+  maskManager: {fileID: 1209907148}
   maskPanel: {fileID: 0}
   equippedMasks:
   - {fileID: 0}
@@ -7336,7 +7336,7 @@ MonoBehaviour:
   - {fileID: 0}
   activeMaskIndex: 0
   cardGen: {fileID: 1312629782}
-  combat: {fileID: 0}
+  combat: {fileID: 624745921}
 --- !u!1 &1955673424
 GameObject:
   m_ObjectHideFlags: 0
