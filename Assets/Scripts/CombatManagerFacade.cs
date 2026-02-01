@@ -89,6 +89,13 @@ public class CombatManagerFacade : MonoBehaviour
     private SunWukongState wukong = new SunWukongState();
     private KitsuneState kitsune = new KitsuneState();
     private SkiState ski = new SkiState();
+    private GuanYuState guan = new GuanYuState();
+
+    private struct GuanYuState
+    {
+        public bool anyGuanYuEquipped;
+    }
+
 
     // Guard (avoid recursion when we call player.TakeDamage inside hook)
     private bool internalDamageCall = false;
@@ -175,7 +182,10 @@ public class CombatManagerFacade : MonoBehaviour
     {
         DLog($"[TURN] PlayerTurnStart | Turn={turnNumber} | ActiveMaskIndex={activeMaskIndex}");
 
-        SetMana(manaRefillPerTurn);
+        int refill = manaRefillPerTurn + (kitsune.anyKitsuneEquipped ? 1 : 0);
+        SetMana(refill);
+        if (kitsune.anyKitsuneEquipped) DLog($"{MASK_LOG}[Kitsune] TurnStart => manaRefill +1 => {refill}/{manaCap}");
+
 
         // ZhongKui cons: each turn add a negative card to discard
         if (HasMask(equippedMasks, "ÖÓØ¸") || HasMaskId(equippedMasks, "zhong_kui"))
@@ -210,11 +220,16 @@ public class CombatManagerFacade : MonoBehaviour
         DLog($"[TURN] PlayerTurnEnd | Turn={turnNumber} | ActiveMaskIndex={activeMaskIndex}");
 
         // Kitsune summons act at end of player turn
+        // Kitsune: simple end-of-turn damage (no foxies)
         if (kitsune.anyKitsuneEquipped)
         {
-            DLog($"{MASK_LOG}[Kitsune] TurnEnd => resolving foxies (count={foxies.Count})");
-            ResolveFoxyEndOfTurn();
+            int dmg = 3; 
+            DLog($"{MASK_LOG}[Kitsune] TurnEnd => deal {dmg} damage to a random alive enemy");
+            Enemy e = GetRandomAliveEnemy();
+            if (e != null) e.TakeDamage(dmg);
+            else DLog($"{MASK_LOG}[Kitsune] No alive enemy to take damage");
         }
+
 
         // ErLang track activations
         DLog($"{MASK_LOG}[ErLang] TurnEnd => thisTurnActivations={erlang.thisTurnActivations} (stored to lastTurn)");
@@ -389,27 +404,6 @@ public class CombatManagerFacade : MonoBehaviour
             return;
         }
 
-        // Kitsune: redirect incoming damage to Foxy if any exist (Foxy can be killed)
-        if (kitsune.anyKitsuneEquipped && foxies.Count > 0)
-        {
-            var f = GetFirstAliveFoxy();
-            if (f != null)
-            {
-                int beforeHp = f.hp;
-                f.hp -= ctx.incomingDamage;
-                ctx.cancelDamage = true;
-
-                DLog($"{MASK_LOG}[Kitsune] Redirect damage to Foxy => dmg={ctx.incomingDamage} | foxyHP {beforeHp}->{f.hp}");
-
-                if (f.hp <= 0)
-                {
-                    foxies.Remove(f);
-                    DLog($"{MASK_LOG}[Kitsune] Foxy died => remove summon, apply -10 HP to player");
-                    SafeInternalDamage(10);
-                }
-                return;
-            }
-        }
     }
 
     private void HandleAfterTakeDamage(int hpLoss)
@@ -562,9 +556,19 @@ public class CombatManagerFacade : MonoBehaviour
                 DLog($"{MASK_LOG}[SunWukong] Defense shield bonus => {before} -> {shieldGain}");
             }
 
+            // Guan Yu: all defense cards +1 shield (passive)
+            if (guan.anyGuanYuEquipped)
+            {
+                int before = shieldGain;
+                shieldGain += 1;
+                DLog($"{MASK_LOG}[GuanYu] Defense shield +1 => {before} -> {shieldGain}");
+            }
+
+
             if (shieldGain > 0) player.AddShield(shieldGain);
             else if (shieldGain < 0) SafeInternalDamage(-shieldGain);
         }
+
         else
         {
             DLog("[RESOLVE] Power/Other => no default effect here");
@@ -578,7 +582,16 @@ public class CombatManagerFacade : MonoBehaviour
         // base damage from card.damage + SunWukong strength signed bonus
         int baseDmg = card.damage;
         baseDmg += playerStrengthSignedBonus();
+
+        // Guan Yu: all attack cards +3 damage (passive)
+        if (guan.anyGuanYuEquipped)
+        {
+            baseDmg += 3;
+            DLog($"{MASK_LOG}[GuanYu] Attack damage +3 => baseDmg now {baseDmg}");
+        }
+
         baseDmg = Mathf.Max(0, baseDmg);
+
 
         int dmg = Mathf.RoundToInt(baseDmg * damageMultiplier);
 
@@ -749,13 +762,13 @@ public class CombatManagerFacade : MonoBehaviour
         }
 
 
-        // Kitsune: seed its 1-cost card once
-        if (kitsune.anyKitsuneEquipped && !kitsune.kitsuneCardSeeded)
-        {
-            kitsune.kitsuneCardSeeded = true;
-            discard.Add(CardBlueprint.KitsuneCard());
-            DLog($"{MASK_LOG}[Kitsune] Seeded Kitsune card into discard (so it appears soon)");
-        }
+        //// Kitsune: seed its 1-cost card once
+        //if (kitsune.anyKitsuneEquipped && !kitsune.kitsuneCardSeeded)
+        //{
+        //    kitsune.kitsuneCardSeeded = true;
+        //    discard.Add(CardBlueprint.KitsuneCard());
+        //    DLog($"{MASK_LOG}[Kitsune] Seeded Kitsune card into discard (so it appears soon)");
+        //}
     }
 
     private void RunAfterPlayHooks(MaskData[] equippedMasks, int activeMaskIndex, ref ActionContext ctx)
@@ -768,20 +781,6 @@ public class CombatManagerFacade : MonoBehaviour
 
             DLog($"{MASK_LOG}[BaoZheng] AFTER => pendingReduction={reduce} (applies to NEXT card), gain shield={reduce}");
             player.AddShield(reduce);
-        }
-
-        // Kitsune: track kitsune card usage
-        if (kitsune.anyKitsuneEquipped && ctx.card.ID == CardBlueprint.ID_KITSUNE_CARD)
-        {
-            kitsune.kitsuneCardUses++;
-            DLog($"{MASK_LOG}[Kitsune] Used Kitsune card => uses={kitsune.kitsuneCardUses}");
-
-            if (kitsune.kitsuneCardUses % 5 == 0 && foxies.Count < 7)
-            {
-                int hp = (GetPlayerApproxHealth() < 30) ? 12 : 8;
-                foxies.Add(new Summon { kind = SummonKind.Foxy, hp = hp });
-                DLog($"{MASK_LOG}[Kitsune] Spawn Foxy => hp={hp} | foxiesCount={foxies.Count}");
-            }
         }
 
         // SunWukong: record last non-wukong active mask
@@ -1030,6 +1029,7 @@ public class CombatManagerFacade : MonoBehaviour
         wukong = new SunWukongState();
         kitsune = new KitsuneState();
         ski = new SkiState();
+        guan = new GuanYuState();
 
         foxies.Clear();
         dogActive = false;
@@ -1050,6 +1050,8 @@ public class CombatManagerFacade : MonoBehaviour
         wukong.anyWukongEquipped = HasMask(equippedMasks, "ËïÎò¿Õ") || HasMaskId(equippedMasks, "sun_wukong");
         kitsune.anyKitsuneEquipped = HasMask(equippedMasks, "ºüÀê") || HasMaskId(equippedMasks, "kitsune") || HasMaskId(equippedMasks, "ksume");
         ski.anySkiEquipped = HasMask(equippedMasks, "Ski") || HasMaskId(equippedMasks, "ski");
+        guan.anyGuanYuEquipped =HasMask(equippedMasks, "¹ØÓð") || HasMaskId(equippedMasks, "guan_yu");
+
 
         DLog($"{MASK_LOG} Equipped flags => ErLang={erlang.anyErLangEquipped} ZhongKui={zhong.anyZhongKuiEquipped} SunWukong={wukong.anyWukongEquipped} Kitsune={kitsune.anyKitsuneEquipped} Ski={ski.anySkiEquipped}");
     }
