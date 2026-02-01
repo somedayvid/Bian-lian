@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 /// <summary>
@@ -26,12 +27,16 @@ public class DummyEnemy : MonoBehaviour, Enemy
     public void TakeDamage(int amount)
     {
         if (!IsAlive()) return;
-        if (amount <= 0) return;
+        if (amount <= 0)
+        {
+            ActionLog.GetInstance().AddText("Your attack missed!");
+            return;
+        }
 
         health -= amount;
         if (health < 0) health = 0;
 
-        Debug.Log($"[DummyEnemy] Took {amount} damage. HP={health}");
+        ActionLog.GetInstance().AddText($"[DummyEnemy] Took {amount} damage.");
     }
 
     public void ResetDummy()
@@ -57,7 +62,7 @@ public class DummyEnemy : MonoBehaviour, Enemy
         int dmg = 60;
         if (rng == 0) dmg = 1000; // keep your rare big hit test
 
-        Debug.Log($"[DummyEnemy] Attacks player for {dmg}");
+        //Debug.Log($"[DummyEnemy] Attacks player for {dmg}");
         player.TakeDamage(dmg);
     }
 }

@@ -132,7 +132,7 @@ public class Player : MonoBehaviour
             if (health < 0) health = 0;
         }
 
-        Debug.Log($"[Player] Took damage. HP={health}, Shield={shield}");
+        ActionLog.GetInstance().AddText($"[Player] Took damage. HP={health}, Shield={shield}");
     }
 
     public void HealPlayer(int heal)
