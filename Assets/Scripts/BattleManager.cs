@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -150,14 +151,14 @@ public class BattleManager : MonoBehaviour
             if (e == null) continue;
             if (!e.IsAlive()) continue;
 
+            e.PlayAnime();
+
             // Enemy acts once per enemy turn (Step0)
             e.ResolveAction(player);
 
             // Check after each enemy action
             CheckVictoryDefeat();
         }
-
-        // Back to player
         TurnNumber++;
         EnterPlayerTurn();
     }

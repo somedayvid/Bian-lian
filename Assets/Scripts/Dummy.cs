@@ -65,4 +65,9 @@ public class DummyEnemy : MonoBehaviour, Enemy
         //Debug.Log($"[DummyEnemy] Attacks player for {dmg}");
         player.TakeDamage(dmg);
     }
+
+    public void PlayAnime()
+    {
+        gameObject.GetComponent<EnemyParentClass>().PlayAnimation();
+    }
 }
