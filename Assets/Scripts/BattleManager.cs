@@ -82,15 +82,17 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    private void Start()
+    private IEnumerator Start()
     {
+        Debug.Log($"[BattleManager] Cached enemies: {enemies.Count}");
+
         // Bind facade once at startup
         if (combat != null)
         {
             combat.Bind(player, enemies);
             combat.OnRequestExtraTurn += () => extraTurnPending = true;
         }
-
+        yield return null;
         StartBattle();
     }
 
