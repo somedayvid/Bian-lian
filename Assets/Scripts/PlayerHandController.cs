@@ -70,7 +70,6 @@ public class PlayerHandController : MonoBehaviour
         Transform[] tmep = cardImg.GetComponentsInChildren<Transform>();
         tmep[1].GetComponent<TextMeshProUGUI>().text = card.GetName();
         tmep[2].GetComponent<TextMeshProUGUI>().text = card.GetCost().ToString();
-        tmep[3].GetComponent<TextMeshProUGUI>().text = card.GetEffect();
 
         return AddCardToHand(card, cardImg); 
     }

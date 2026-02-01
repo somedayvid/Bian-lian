@@ -3541,8 +3541,6 @@ MonoBehaviour:
   player: {fileID: 1425976159}
   enemyBehaviours:
   - {fileID: 1368908023}
-  - {fileID: 0}
-  - {fileID: 0}
   maskPanel: {fileID: 0}
   equippedMasks:
   - {fileID: 0}

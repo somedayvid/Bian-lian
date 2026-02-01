@@ -187,14 +187,8 @@ public class Card
 
     public int GetCost()
     {
-        return 1;
+        return chi;
     }
-
-    public string GetEffect()
-    {
-        return "Does a thing";
-    }
-
 
     public virtual void UseCard()
     {
