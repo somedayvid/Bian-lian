@@ -257,6 +257,7 @@ public class BattleManager : MonoBehaviour
         if (!player.IsAlive())
         {
             State = BattleState.Defeat;
+            GameManager.instance.GameOver();
             Debug.Log("=== DEFEAT ===");
             return;
         }
@@ -275,6 +276,7 @@ public class BattleManager : MonoBehaviour
         {
             cardGen.KardGen(3);
             State = BattleState.Victory;
+            GameManager.instance.LevelWon();
             ActionLog.GetInstance().AddText("=== VICTORY ===");
         }
     }
