@@ -83,8 +83,7 @@ public class DeckManager : MonoBehaviour
     void Awake()
     {
         Card newCard = new Card();
-        newCard.cardEffect = CardEffect.DrunkenFist;
-        AddCardMain(newCard);
+        newCard.cardEffect = CardEffect.PalmStrike;
         AddCardMain(newCard);
         AddCardMain(newCard);
         AddCardMain(newCard);
@@ -92,11 +91,11 @@ public class DeckManager : MonoBehaviour
         newCard2.cardEffect = CardEffect.RockThrow;
         AddCardMain(newCard2);
         AddCardMain(newCard2);
-        AddCardMain(newCard2);
-        AddCardMain(newCard2);
-        AddCardMain(newCard2);
-        AddCardMain(newCard2);
-
+        Card newCard3 = new Card();
+        newCard3.cardEffect = CardEffect.SmallShieldPotion;
+        AddCardMain(newCard3);
+        AddCardMain(newCard3);
+        AddCardMain(newCard3);
         StartBattle();
     }
 }

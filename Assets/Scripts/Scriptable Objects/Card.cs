@@ -21,16 +21,17 @@ public enum CardEffect
     OrientalTigerBalm,
     GinsengRoot,
     HeavenlyInsight,
-    MandateOfHeaven,
+    //MandateOfHeaven,
     SunTzusInsight,
     DragonStrike,
     HeavenSplit,
     JadeBarrier,
-    Momentum,
+    //Momentum,
     RockThrow,
     Pills,
+    BuddahStrike,
     SubmachineGun,
-    BuddahStrike
+    
 }
 //[CreateAssetMenu(fileName = "Card", menuName = "ScriptableObjects/Card", order = 1)]
 
@@ -93,8 +94,8 @@ public class Card
                 break;
             case (CardEffect.HeavenlyInsight):
                 break;
-            case (CardEffect.MandateOfHeaven):
-                break;
+            //case (CardEffect.MandateOfHeaven):
+            //    break;
             case (CardEffect.SunTzusInsight):
                 break;
             case (CardEffect.DragonStrike):
@@ -105,8 +106,8 @@ public class Card
                 break;
             case (CardEffect.JadeBarrier):
                 break;
-            case (CardEffect.Momentum):
-                break;
+            //case (CardEffect.Momentum):
+            //    break;
             case (CardEffect.RockThrow):
                 damage = 3;
                 chi = 0;
@@ -164,8 +165,8 @@ public class Card
                 case CardEffect.HeavenlyInsight:
                     return "Heavenly Insight";
 
-                case CardEffect.MandateOfHeaven:
-                    return "Mandate of Heaven";
+                //case CardEffect.MandateOfHeaven:
+                //    return "Mandate of Heaven";
 
                 case CardEffect.SunTzusInsight:
                     return "Sun Tzu’s Insight";
@@ -179,8 +180,8 @@ public class Card
                 case CardEffect.JadeBarrier:
                     return "Jade Barrier";
 
-                case CardEffect.Momentum:
-                    return "Momentum";
+                //case CardEffect.Momentum:
+                //    return "Momentum";
 
                 case CardEffect.RockThrow:
                     return "Rock Throw";

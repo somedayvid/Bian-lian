@@ -21,7 +21,7 @@ public class CardGen : MonoBehaviour
             Card card = new Card();
             CardEffect randomEffect = (CardEffect)Random.Range(
                 1,
-                System.Enum.GetValues(typeof(CardEffect)).Length
+                System.Enum.GetValues(typeof(CardEffect)).Length - 1
             );
 
             card.cardEffect = randomEffect;
