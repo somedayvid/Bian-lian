@@ -34,6 +34,8 @@ public class BattleManager : MonoBehaviour
 
     [SerializeField] private int activeMaskIndex = 0;
 
+    public CardGen cardGen;
+
     public BattleState State { get; private set; } = BattleState.Setup;
     public int TurnNumber { get; private set; } = 1;
 
@@ -195,8 +197,9 @@ public class BattleManager : MonoBehaviour
 
         if (!anyEnemyAlive)
         {
+            cardGen.KardGen(3);
             State = BattleState.Victory;
-            Debug.Log("=== VICTORY ===");
+            ActionLog.GetInstance().AddText("=== VICTORY ===");
         }
     }
 

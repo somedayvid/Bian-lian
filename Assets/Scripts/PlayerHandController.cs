@@ -96,8 +96,9 @@ public class PlayerHandController : MonoBehaviour
             Debug.LogWarning("[Hand] Hand is full (limit=10). Card rejected.");
             return false;
         }
-
-        visualHand.Add(Instantiate(prefab, transform));
+        GameObject tempObj = Instantiate(prefab, transform);
+        tempObj.GetComponent<SpriteRenderer>().sprite = card.GetImage();
+        visualHand.Add(tempObj);
         hand.Add(card);
 
         selectedIndex = Mathf.Clamp(selectedIndex, 0, hand.Count - 1);

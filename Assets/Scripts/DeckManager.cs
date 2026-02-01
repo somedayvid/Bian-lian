@@ -45,6 +45,11 @@ public class DeckManager : MonoBehaviour
         combatDeckCount.text = tempDeck.Count.ToString();
     }
 
+    public void AddCardMain(Card card)
+    {
+        mainDeck.Add(card);
+    }
+
     public void RemoveCard(Card card)
     {
         tempDeck.Remove(card);
@@ -54,6 +59,7 @@ public class DeckManager : MonoBehaviour
     public void StartBattle()
     {
         tempDeck = new List<Card>(mainDeck);
+        shuffle();
     }
 
     public void EndBattle()
@@ -78,20 +84,19 @@ public class DeckManager : MonoBehaviour
     {
         Card newCard = new Card();
         newCard.cardEffect = CardEffect.DrunkenFist;
-        AddCard(newCard);
-        AddCard(newCard);
-        AddCard(newCard);
-        AddCard(newCard);
+        AddCardMain(newCard);
+        AddCardMain(newCard);
+        AddCardMain(newCard);
+        AddCardMain(newCard);
         Card newCard2 = new Card();
         newCard2.cardEffect = CardEffect.RockThrow;
-        AddCard(newCard2);
-        AddCard(newCard2);
-        AddCard(newCard2);
-        AddCard(newCard2);
-        AddCard(newCard2);
-        AddCard(newCard2);
+        AddCardMain(newCard2);
+        AddCardMain(newCard2);
+        AddCardMain(newCard2);
+        AddCardMain(newCard2);
+        AddCardMain(newCard2);
+        AddCardMain(newCard2);
 
-
-        shuffle();
+        StartBattle();
     }
 }

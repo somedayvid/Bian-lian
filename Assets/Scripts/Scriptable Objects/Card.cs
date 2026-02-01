@@ -30,6 +30,7 @@ public enum CardEffect
     RockThrow,
     Pills,
     SubmachineGun,
+    BuddahStrike
 }
 //[CreateAssetMenu(fileName = "Card", menuName = "ScriptableObjects/Card", order = 1)]
 
@@ -116,6 +117,8 @@ public class Card
                 damage = 10;
                 chi = 0;
                 break;
+            case CardEffect.BuddahStrike:
+                break;
         }
     }
         public string GetName()
@@ -184,10 +187,77 @@ public class Card
 
                 case CardEffect.Pills:
                     return "Mystic Pills";
+            case CardEffect.BuddahStrike:
+                    return "Super Buddah Strike";
                 default:    
                     return "-";
             }
         }
+
+    public Sprite GetImage()
+    {
+        switch (cardEffect)
+        {
+            case CardEffect.Null:
+                return null;
+
+            case CardEffect.DrunkenFist:
+                return CardImageList.GetInstance().Img(0);
+
+            case CardEffect.PalmStrike:
+                return CardImageList.GetInstance().Img(1);
+
+            case CardEffect.SmallShieldPotion:
+                return CardImageList.GetInstance().Img(2);
+
+            case CardEffect.ShieldPotion:
+                return CardImageList.GetInstance().Img(3);
+
+            case CardEffect.OrientalMedicineJug:
+                return CardImageList.GetInstance().Img(4);
+
+            case CardEffect.SubmachineGun:
+                return CardImageList.GetInstance().Img(5);
+
+            case CardEffect.OrientalDaggerRitual:
+                return CardImageList.GetInstance().Img(6);
+
+            case CardEffect.OrientalDagger:
+                return CardImageList.GetInstance().Img(7);
+
+            case CardEffect.Meditate:
+                return CardImageList.GetInstance().Img(8);
+
+            case CardEffect.OrientalTigerBalm:
+                return CardImageList.GetInstance().Img(9);
+
+            case CardEffect.GinsengRoot:
+                return CardImageList.GetInstance().Img(10);
+
+            case CardEffect.HeavenlyInsight:
+                return CardImageList.GetInstance().Img(11);
+            case CardEffect.SunTzusInsight:
+                return CardImageList.GetInstance().Img(12);
+
+            case CardEffect.DragonStrike:
+                return CardImageList.GetInstance().Img(13);
+
+            case CardEffect.HeavenSplit:
+                return CardImageList.GetInstance().Img(14);
+
+            case CardEffect.JadeBarrier:
+                return CardImageList.GetInstance().Img(15);
+            case CardEffect.RockThrow:
+                return CardImageList.GetInstance().Img(16);
+            case CardEffect.Pills:
+                return CardImageList.GetInstance().Img(17);
+            case CardEffect.BuddahStrike:
+                return CardImageList.GetInstance().Img(18);
+            default:
+                return null;
+        }
+    }
+
 
     public int GetCost()
     {
