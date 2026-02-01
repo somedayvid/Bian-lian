@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class DeckManager : MonoBehaviour
@@ -9,6 +10,10 @@ public class DeckManager : MonoBehaviour
     private List<Card> discardDeck = new List<Card>();
 
     List<Card> discard = new List<Card>();
+
+    public TextMeshProUGUI discardPileCount;
+    public TextMeshProUGUI combatDeckCount;
+
     void shuffle()
     {
         for (int i = tempDeck.Count - 1; i > 0; i--)
@@ -25,22 +30,27 @@ public class DeckManager : MonoBehaviour
         {
             tempDeck = new List<Card>(discard);
             discard.Clear();
+            discardPileCount.text = discardDeck.Count.ToString();
+            combatDeckCount.text = tempDeck.Count.ToString();
             shuffle();
         }
         if (tempDeck.Count == 0) return null;
         Card card = tempDeck[0];
         tempDeck.RemoveAt(0);
+        combatDeckCount.text = tempDeck.Count.ToString();
         return card;
     }
     public void AddCard(Card card)
     {
         tempDeck.Add(card);
         shuffle();
+        combatDeckCount.text = tempDeck.Count.ToString();
     }
 
     public void RemoveCard(Card card)
     {
         tempDeck.Remove(card);
+        combatDeckCount.text = tempDeck.Count.ToString();
     }
 
     public void StartBattle()
@@ -52,6 +62,12 @@ public class DeckManager : MonoBehaviour
     {
         tempDeck = null;
         discardDeck.Clear();
+    }
+
+    public void DiscardCard(Card card)
+    {
+        discardDeck.Add(card);
+        discardPileCount.text = discardDeck.Count.ToString();
     }
 
     void Awake()

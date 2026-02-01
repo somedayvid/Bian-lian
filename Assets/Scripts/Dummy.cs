@@ -59,7 +59,7 @@ public class DummyEnemy : MonoBehaviour, Enemy
         if (!player.IsAlive()) return;
 
         int rng = Random.Range(0, 500);
-        int dmg = 60;
+        int dmg = 1;
         if (rng == 0) dmg = 1000; // keep your rare big hit test
 
         //Debug.Log($"[DummyEnemy] Attacks player for {dmg}");
