@@ -25,6 +25,9 @@ public class UnitBarsUI : MonoBehaviour
         {
             SetFill(healthFill, player.Health, player.MaxHealth);
             SetFill(shieldFill, player.Shield, player.MaxShield);
+
+            if (hpText != null)
+                hpText.text = $"{player.Health}/{player.MaxHealth}";
             return;
         }
 
@@ -35,9 +38,12 @@ public class UnitBarsUI : MonoBehaviour
             if (shieldFill != null)
                 shieldFill.gameObject.SetActive(false);
 
+            if (hpText != null)
+                hpText.text = $"{dummy.Health}/{dummy.MaxHealth}";
             return;
         }
     }
+
 
     private void SetFill(Image img, int current, int max)
     {
@@ -48,7 +54,6 @@ public class UnitBarsUI : MonoBehaviour
         else
         {
             img.fillAmount = Mathf.Clamp01((float)current / max);
-            hpText.text = player.Health.ToString() + '/' + player.MaxHealth.ToString();
         }
 
     }

@@ -3250,7 +3250,7 @@ MonoBehaviour:
   healthFill: {fileID: 1045175365}
   shieldFill: {fileID: 0}
   player: {fileID: 1425976159}
-  dummy: {fileID: 1368908023}
+  dummy: {fileID: 0}
   hpText: {fileID: 644671114}
 --- !u!114 &1204811308
 MonoBehaviour:
@@ -4066,7 +4066,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1396361943
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4103,7 +4103,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthFill: {fileID: 1211632811}
   shieldFill: {fileID: 0}
-  player: {fileID: 1425976159}
+  player: {fileID: 0}
   dummy: {fileID: 1368908023}
   hpText: {fileID: 1977357657}
 --- !u!114 &1396361945
@@ -4145,7 +4145,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!223 &1396361947
 Canvas:
   m_ObjectHideFlags: 0
