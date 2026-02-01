@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum CardType
@@ -5,7 +7,8 @@ public enum CardType
     Attack,
     Defense,
     Power,
-    Heal
+    Heal,
+    NegativeType
 }
 public enum CardEffect
 {
@@ -14,7 +17,8 @@ public enum CardEffect
     PalmStrike,
     SmallShieldPotion,
     ShieldPotion,
-    OrientalMedicineJug, 
+    OrientalMedicineJug,
+    SubmachineGun,
     OrientalDaggerRitual,
     OrientalDagger,
     Meditate,
@@ -37,6 +41,8 @@ public enum CardEffect
 
 public class Card
 {
+    //change this accordingly
+
     public int ID;
     public string cardName;
     public CardType cardType;
@@ -58,9 +64,10 @@ public class Card
     {
         switch (cardEffect)
         {
-            case CardEffect.DrunkenFist:
+            case (CardEffect.DrunkenFist):
                 int rng = Random.Range(0, 2);
-                damage = (rng == 0) ? 0 : 12;
+                if (rng == 0) damage = 0;
+                else damage = 12;
                 break;
             case (CardEffect.PalmStrike):
                 damage = 5;
@@ -178,7 +185,7 @@ public class Card
                 //    return "Mandate of Heaven";
 
                 case CardEffect.SunTzusInsight:
-                    return "Sun Tzu’s Insight";
+                    return "Sun Tzuï¿½s Insight";
 
                 case CardEffect.DragonStrike:
                     return "Dragon Strike";
@@ -274,9 +281,16 @@ public class Card
         return chi;
     }
 
+    public string GetEffect()
+    {
+        return "Does a thing";
+    }
+
+
     public virtual void UseCard()
     {
         ResolveEffect();
-        Debug.Log($"Using card: {GetName()} with ID: {ID}");
+        Debug.Log($"Using card: {cardName} with ID: {ID}");
+        // Implement card effect logic here
     }
 }

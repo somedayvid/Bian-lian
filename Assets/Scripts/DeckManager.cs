@@ -97,13 +97,23 @@ public class DeckManager : MonoBehaviour
         AddCardMain(newCard);
         Card newCard2 = new Card();
         newCard2.cardEffect = CardEffect.RockThrow;
-        AddCardMain(newCard2);
-        AddCardMain(newCard2);
-        Card newCard3 = new Card();
-        newCard3.cardEffect = CardEffect.SmallShieldPotion;
-        AddCardMain(newCard3);
-        AddCardMain(newCard3);
-        AddCardMain(newCard3);
-        StartBattle();
+        AddCard(newCard2);
+        AddCard(newCard2);
+        AddCard(newCard2);
+        AddCard(newCard2);
+        AddCard(newCard2);
+        AddCard(newCard2);
+
+        Card defend = new Card();
+        defend.cardType = CardType.Defense;
+        defend.shield = 8;    
+        defend.chi = 1;       
+        defend.cardName = "Defend";
+        AddCard(defend);
+        AddCard(defend);
+        AddCard(defend);
+        AddCard(defend);
+
+        shuffle();
     }
 }
