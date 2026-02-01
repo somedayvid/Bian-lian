@@ -2440,9 +2440,37 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2822588574537120580, guid: 0a5c08b1485240d44aa1596212fe5e17, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 97.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2822588574537120580, guid: 0a5c08b1485240d44aa1596212fe5e17, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -4.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2822588574537120580, guid: 0a5c08b1485240d44aa1596212fe5e17, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.47
+      objectReference: {fileID: 0}
     - target: {fileID: 6420589142503069125, guid: 0a5c08b1485240d44aa1596212fe5e17, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 7327151601392037307, guid: 0a5c08b1485240d44aa1596212fe5e17, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7327151601392037307, guid: 0a5c08b1485240d44aa1596212fe5e17, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7327151601392037307, guid: 0a5c08b1485240d44aa1596212fe5e17, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7327151601392037307, guid: 0a5c08b1485240d44aa1596212fe5e17, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8419456614020520099, guid: 0a5c08b1485240d44aa1596212fe5e17, type: 3}
       propertyPath: prefab
@@ -2468,7 +2496,8 @@ PrefabInstance:
       propertyPath: rightHandBound
       value: 
       objectReference: {fileID: 1081656074}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4562461069581832253, guid: 0a5c08b1485240d44aa1596212fe5e17, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
